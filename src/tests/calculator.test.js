@@ -1,4 +1,4 @@
-const { add, subtract, multiply, divide } = require('../calculator');
+const { add, subtract, multiply, divide, modulo, power, squareRoot } = require('../calculator');
 
 describe('add', () => {
   test('2 + 3 = 5', () => expect(add(2, 3)).toBe(5));
@@ -34,5 +34,37 @@ describe('divide', () => {
   });
   test('throws on zero divided by zero', () => {
     expect(() => divide(0, 0)).toThrow('Division by zero');
+  });
+});
+
+describe('modulo', () => {
+  test('5 % 2 = 1', () => expect(modulo(5, 2)).toBe(1));
+  test('returns 0 when evenly divisible', () => expect(modulo(10, 5)).toBe(0));
+  test('dividend smaller than divisor', () => expect(modulo(2, 5)).toBe(2));
+  test('keeps the sign of the dividend', () => expect(modulo(-5, 3)).toBe(-2));
+  test('handles decimals', () => expect(modulo(5.5, 2)).toBe(1.5));
+  test('throws on modulo by zero', () => {
+    expect(() => modulo(5, 0)).toThrow('Modulo by zero is not allowed.');
+  });
+});
+
+describe('power', () => {
+  test('2 ^ 3 = 8', () => expect(power(2, 3)).toBe(8));
+  test('exponent of zero gives 1', () => expect(power(5, 0)).toBe(1));
+  test('exponent of one gives the base', () => expect(power(7, 1)).toBe(7));
+  test('negative exponent gives a fraction', () => expect(power(2, -2)).toBe(0.25));
+  test('negative base with odd exponent', () => expect(power(-2, 3)).toBe(-8));
+  test('fractional exponent', () => expect(power(9, 0.5)).toBe(3));
+  test('0 ^ 0 = 1', () => expect(power(0, 0)).toBe(1));
+});
+
+describe('squareRoot', () => {
+  test('sqrt(16) = 4', () => expect(squareRoot(16)).toBe(4));
+  test('sqrt(0) = 0', () => expect(squareRoot(0)).toBe(0));
+  test('sqrt(1) = 1', () => expect(squareRoot(1)).toBe(1));
+  test('non-perfect square', () => expect(squareRoot(2)).toBeCloseTo(1.41421356, 7));
+  test('decimal input', () => expect(squareRoot(0.25)).toBe(0.5));
+  test('throws on negative numbers', () => {
+    expect(() => squareRoot(-4)).toThrow('Square root of a negative number is not allowed.');
   });
 });
